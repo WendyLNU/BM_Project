@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>ECharts</title>
+<!-- 引入 echarts.js -->
+<script src="/asserts/js/echarts.js"></script>
+<script src="/asserts/js/echarts.min.js"></script>
+<script src="/asserts/js/jquery.js"></script>
+<script src="/asserts/js/jquery.min.js"></script>
+</head>
+<body>
+	<!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
+	<div id="main" style="width: 600px; height: 400px;"></div>
+	<div id="test11" style="width: 600px; height: 400px;"></div>
+
+	<script type="text/javascript">
+ 
+         // 基于准备好的dom，初始化echarts实例
+         var myChart = echarts.init(document.getElementById('main'));
+         myChart.setOption({
+             title: {
+                  text: '数据库中Na,Li占比',
+                  left:'left'
+              },
+              legend:{
+                 data:['数量']
+              },
+              xAxis:{
+                 data:[]
+              },
+              yAxis:{},
+             series : [{
+                name:'实际数量',
+                type:'bar',
+                data:[]
+             }
+             ]
+         });
+
+         myChart.showLoading({text: '数据正在加载中...'  }); 
+         //这里设置定时器模拟数据延时加载
+         setTimeout(function(){
+            $.ajax({  
+                url:"/getDatas",  
+                dataType:"json",  
+                success:function(jsonData){ 
+                    myChart.setOption({  
+                       xAxis: {  
+                           data: jsonData.xAxisCategory  
+                       },  
+                       series: [{  
+                           // 根据名字对应到相应的系列  
+                           name: '实际数量',  
+                           data: jsonData.datas  
+                           
+                       }]  
+                   });  
+                   // 设置加载等待隐藏  
+                   myChart.hideLoading();  
+                }  
+            }); 
+        },2000);
+         
+ </script>
+	<script type="text/javascript">
+ 
+         // 基于准备好的dom，初始化echarts实例
+         var myChart1 = echarts.init(document.getElementById('test11'));
+
+        	var option = {
+        			    backgroundColor: '#2c343c',
+
+        			    title: {
+        			        text: '数据库Na,Li占比',
+        			        left: 'center',
+        			        top: 20,
+        			        textStyle: {
+        			            color: '#ccc'
+        			        }
+        			    },
+        			    tooltip : {
+        			        trigger: 'item',
+        			        formatter: "{a} <br/>{b} : {c} ({d}%)"
+        			    },
+
+
+        			    visualMap: {
+        			        show: false,
+        			        min: 80,
+        			        max: 10000,
+        			        inRange: {
+        			            colorLightness: [0, 1]
+        			        }
+        			    },
+        			    series : [
+        			        {
+        			            name:'数据库占比',
+        			            type:'pie',
+        			            radius : '55%',
+        			            center: ['50%', '50%'],
+        			            data:[
+        			                {value:2573, name:'含有Na元素'},
+        			                {value:9121, name:'含有Li元素'},
+        			               
+        			            ].sort(function (a, b) { return a.value - b.value; }),
+        			            roseType: 'radius',
+        			            label: {
+        			                normal: {
+        			                    textStyle: {
+        			                        color: 'rgba(255, 255, 255, 0.3)'
+        			                    }
+        			                }
+        			            },
+        			            labelLine: {
+        			                normal: {
+        			                    lineStyle: {
+        			                        color: 'rgba(255, 255, 255, 0.3)'
+        			                    },
+        			                    smooth: 0.2,
+        			                    length: 10,
+        			                    length2: 20
+        			                }
+        			            },
+        			            itemStyle: {
+        			                normal: {
+        			                    color: '#c23531',
+        			                    shadowBlur: 15500,
+        			                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+        			                }
+        			            },
+
+        			            animationType: 'scale',
+        			            animationEasing: 'elasticOut',
+        			            animationDelay: function (idx) {
+        			                return Math.random() * 200;
+        			            }
+        			        }
+        			    ]
+        			};
+        	myChart1.setOption(option);
+ </script>
+</body>
+</html>
