@@ -1,0 +1,90 @@
+{% load  staticfiles %}
+<!DOCTYPE html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+<meta name="author" content="">
+<title>注册界面</title>
+<!-- Bootstrap core CSS -->
+    <link href="{% static "asserts/css/bootstrap.min.css" %}" rel="stylesheet">
+    <link href="{% static "asserts/css/style.css" %}" rel="stylesheet" type="text/css" media="all" />
+    <link href="{% static "asserts/css/bootstrap.css" %}" rel="stylesheet">
+<!-- Custom styles for this template -->
+    <link href="{% static "asserts/css/signin.css" %}" rel="stylesheet">
+</head>
+
+<body class="text-center">
+	<form class="form-signin" id="form" action="{{ path }}" method="post">
+        {% csrf_token %}
+		<img class="mb-4" src="{% static "asserts/img/bootstrap-solid.svg"%}" alt="" width="72" height="72" />
+		<h1 class="h3 mb-3 font-weight-normal">注册</h1>
+
+       <div class="form-group {%if form.username.errors%} has-error {%endif%}">
+                    <label for="username" class="col-sm-4 ">用户名 :</label>
+                    <div class="col-sm-auto">
+                    {{form.username}}
+                    </div>
+                    {%if form.username.errors%}
+                  <div class="col-sm-5 col-sm-offset-4 margint10">
+                  <span class="color-background2 ">
+                  {% for error in form.username.errors %}
+                    {{ error|escape }}
+                  {% endfor %}
+                  </span>
+                  </div>
+                  {%endif%}
+                </div>
+        <div class="form-group {%if form.email.errors%} has-error {%endif%}">
+                  <label for="email" class="col-sm-4 control-label">Email:</label>
+                  <div class="col-sm-auto">
+                    {{form.email}}
+                  </div>
+                  {%if form.email.errors%}
+                  <div class="col-sm-5 col-sm-offset-4 margint10">
+                  <span class="color-background2 ">
+                  {% for error in form.email.errors %}
+                    {{ error|escape }}
+                  {% endfor %}
+                  </span>
+                  </div>
+                  {%endif%}
+                </div>
+        <div class="form-group {%if form.password.errors%} has-error {%endif%}">
+                  <label for="pssword" class="col-sm-4 control-label">密码:</label>
+                  <div class="col-sm-auto">
+                    {{form.password}}
+                  </div>
+                  {%if form.password.errors%}
+                  <div class="col-sm-5 col-sm-offset-4 margint10">
+                  <span class="color-background2 ">
+                  {% for error in form.password.errors %}
+                    {{ error|escape }}
+                  {% endfor %}
+                  </span>
+                  </div>
+                  {%endif%}
+                </div>
+                <div class="form-group {%if form.password2.errors%} has-error {%endif%}">
+                  <label for="pssword2" class="col-sm-4 control-label">确认密码:</label>
+                  <div class="col-sm-auto">
+                    {{form.confirm_password}}
+                  </div>
+                  {%if form.confirm_password.errors%}
+                  <div class="col-sm-5 col-sm-offset-4 margint10">
+                  <span class="color-background2 ">
+                  {% for error in form.confirm_password.errors %}
+                    {{ error|escape }}
+                  {% endfor %}
+                  </span>
+                  </div>
+                  {%endif%}
+                </div>
+		<button class="btn btn-lg btn-primary btn-block" type="submit">注册</button>
+
+	</form>
+
+</body>
+
+</html>
